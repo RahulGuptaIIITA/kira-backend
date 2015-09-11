@@ -22,12 +22,13 @@ class Appointment(models.Model):
     treatmentPlanName = models.CharField(max_length=200)
     cancelled = models.BooleanField(default=False)
     cancelled_reason = models.CharField(max_length=200)
-    start = models.DateTimeField(auto_now_add=True)
+    scheduled_at = models.DateTimeField(auto_now_add=True)
+    scheduled_till = models.DateTimeField(auto_now_add=False)
     photo_url = models.CharField(max_length=200)
     has_photo = models.BooleanField()
 
     def __str__(self):
-        return self.patient
+        return self.patient.name
 
 class Prescription(models.Model):
     appointment = models.ForeignKey(Appointment)
@@ -35,4 +36,4 @@ class Prescription(models.Model):
     dosage = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.appointment
+        return self.appointment.patient.name

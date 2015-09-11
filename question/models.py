@@ -2,6 +2,7 @@ from django.db import models
 
 TASK_CHOICES = (
     ('T', 'Today'),
+    ('M', 'Tomorrow'),
     ('C', 'Clear'),
     ('P', 'Prescription'),
     ('B', 'Billing'),
@@ -15,4 +16,4 @@ class Question(models.Model):
     task = models.CharField(max_length=1, choices=TASK_CHOICES)
 
     def __str__(self):
-        return self.task
+        return self.question_text
