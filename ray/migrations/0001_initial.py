@@ -15,23 +15,16 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'ray', ['Doctor'])
 
-        # Adding model 'Patient'
-        db.create_table(u'ray_patient', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=70)),
-            ('mobile', self.gf('django.db.models.fields.CharField')(max_length=10)),
-        ))
-        db.send_create_signal(u'ray', ['Patient'])
-
         # Adding model 'Appointment'
         db.create_table(u'ray_appointment', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('patient', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ray.Patient'])),
+            ('patient', self.gf('django.db.models.fields.CharField')(max_length=70)),
             ('doctor', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ray.Doctor'])),
             ('treatmentPlanName', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('cancelled', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('cancelled_reason', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('start', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('scheduled_at', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('scheduled_till', self.gf('django.db.models.fields.DateTimeField')()),
             ('photo_url', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('has_photo', self.gf('django.db.models.fields.BooleanField')()),
         ))
@@ -51,9 +44,6 @@ class Migration(SchemaMigration):
         # Deleting model 'Doctor'
         db.delete_table(u'ray_doctor')
 
-        # Deleting model 'Patient'
-        db.delete_table(u'ray_patient')
-
         # Deleting model 'Appointment'
         db.delete_table(u'ray_appointment')
 
@@ -69,20 +59,15 @@ class Migration(SchemaMigration):
             'doctor': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ray.Doctor']"}),
             'has_photo': ('django.db.models.fields.BooleanField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'patient': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ray.Patient']"}),
+            'patient': ('django.db.models.fields.CharField', [], {'max_length': '70'}),
             'photo_url': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'start': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'scheduled_at': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'scheduled_till': ('django.db.models.fields.DateTimeField', [], {}),
             'treatmentPlanName': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
         u'ray.doctor': {
             'Meta': {'object_name': 'Doctor'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '70'})
-        },
-        u'ray.patient': {
-            'Meta': {'object_name': 'Patient'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mobile': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '70'})
         },
         u'ray.prescription': {

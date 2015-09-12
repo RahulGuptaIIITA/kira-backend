@@ -11,3 +11,4 @@ def command(request):
     task = Question.objects.get(question_text=process.extract(command, command_bank)[0][0]).task
 
     if task === 'T':
+        return getScheduleDay()

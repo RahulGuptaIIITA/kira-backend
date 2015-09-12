@@ -8,16 +8,8 @@ class Doctor(models.Model):
         return self.name
 
 
-class Patient(models.Model):
-    name = models.CharField(max_length=70)
-    mobile = models.CharField(max_length=10)
-
-    def __str__(self):
-        return self.name
-
-
 class Appointment(models.Model):
-    patient = models.ForeignKey(Patient)
+    patient = models.CharField(max_length=70)
     doctor = models.ForeignKey(Doctor)
     treatmentPlanName = models.CharField(max_length=200)
     cancelled = models.BooleanField(default=False)
@@ -28,7 +20,7 @@ class Appointment(models.Model):
     has_photo = models.BooleanField()
 
     def __str__(self):
-        return self.patient.name
+        return self.patient
 
 class Prescription(models.Model):
     appointment = models.ForeignKey(Appointment)
@@ -36,4 +28,4 @@ class Prescription(models.Model):
     dosage = models.CharField(max_length=1000)
 
     def __str__(self):
-        return self.appointment.patient.name
+        return self.appointment.patient
